@@ -53,14 +53,14 @@ public class Spot {
     private String status;   // 「行った」「気になる」「時間があれば」
     private String memo;     // 自由記述メモ
 
-    // ★ 追加：行った日付（例: 2026-08-10）
+    // 行った日付
     private LocalDate visitedDate;
 
-    // スポット写真（最大5枚。先頭 = ホーム画面に表示するメイン写真）
+    // スポット写真（Base64の長文データを保存できるよう TEXT 型に変更）
     @ElementCollection
     @CollectionTable(name = "spot_images", joinColumns = @JoinColumn(name = "spot_id"))
     @OrderColumn(name = "image_order")
-    @Column(name = "image_url", length = 500)
+    @Column(name = "image_url", columnDefinition = "TEXT") // ★ length = 500 から書き換え
     private List<String> imageUrls = new ArrayList<>();
 
     // 味の感想
