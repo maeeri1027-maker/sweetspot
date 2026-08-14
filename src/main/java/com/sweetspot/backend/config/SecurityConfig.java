@@ -20,22 +20,11 @@ public class SecurityConfig {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
+            .httpBasic(basic -> basic.disable())   // ★ HTTP Basic 認証を無効化
+            .formLogin(login -> login.disable())   // ★ フォームログインを無効化
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/auth/**", 
-                    "/h2-console/**", 
-                    "/api/spots",       // ★ 追加（POST /api/spots ぴったり用）
-                    "/api/spots/**", 
-                    "/api/upload/**", 
-                    "/api/upload", 
-                    "/upload/**", 
-                    "/upload", 
-                    "/api/uploads/**", 
-                    "/uploads/**", 
-                    "/api/images/**"
-                ).permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()           // ★ すべての API リクエストを全許可
             );
 
         return http.build();
