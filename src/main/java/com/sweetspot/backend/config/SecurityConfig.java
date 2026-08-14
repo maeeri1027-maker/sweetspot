@@ -25,11 +25,12 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/auth/**", 
                     "/h2-console/**", 
+                    "/api/spots",       // ★ 追加（POST /api/spots ぴったり用）
                     "/api/spots/**", 
-                    "/api/upload/**",  // ★ 追加（単数形）
-                    "/api/upload",     // ★ 追加（単数形）
-                    "/upload/**",      // ★ 追加
-                    "/upload",         // ★ 追加
+                    "/api/upload/**", 
+                    "/api/upload", 
+                    "/upload/**", 
+                    "/upload", 
                     "/api/uploads/**", 
                     "/uploads/**", 
                     "/api/images/**"
@@ -41,20 +42,19 @@ public class SecurityConfig {
     }
 
     @Bean
-public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    // ★ Vercel のドメインおよびワイルドカードパターンを追加して許可
-    configuration.setAllowedOriginPatterns(List.of(
-        "http://localhost:5173", 
-        "http://localhost:3000", 
-        "https://*.vercel.app"
-    ));
-    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    configuration.setAllowedHeaders(List.of("*"));
-    configuration.setAllowCredentials(true);
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of(
+            "http://localhost:5173", 
+            "http://localhost:3000", 
+            "https://*.vercel.app"
+        ));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-}
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
